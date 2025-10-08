@@ -1,0 +1,8 @@
+name = "FinchBenchmark"
+version = "0.1.0"
+
+[deps]
+Finch = "9177782c-1635-4eb9-9bfb-d9dfa25e6bce"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
