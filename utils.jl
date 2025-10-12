@@ -33,4 +33,24 @@ function allocate_finch_csr()
     return Finch.Tensor(Finch.SparseList(Finch.Dense(Finch.Element(0.0))))
 end
 
+"""
+Compile the C/Unzipping library.
+Returns the path to the compiled library.
+"""
+function compile_library()
+    println("⚠ Compiling Unzipping library...")
+    lib_ext = Sys.isapple() ? "dylib" : "so"
+    lib_name = "libkernels.$lib_ext"
+    lib_path = joinpath(@__DIR__, lib_name)
+
+    run(`cc -shared -O3 -fPIC kernels.c utils.c -o $lib_name`)
+    println("✓ Compiled successfully: $lib_path")
+
+    if !isfile(lib_path)
+        error("⚠ Library not found at: $lib_path")
+    end
+
+    return lib_path
+end
+
 end # module
