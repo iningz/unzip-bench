@@ -1,14 +1,14 @@
 # Test correctness of Finch vs Unzipping implementations
 
-include("kernels.jl")
-include("utils.jl")
+using Libdl: dlopen, dlsym, dlclose, RTLD_LAZY, RTLD_GLOBAL
 
-import Libdl
+include("utils.jl")
+include("kernels.jl")
 
 function run_tests()
     # Compile and load library
     lib_path = Utils.compile_library()
-    lib_handle = Libdl.dlopen(lib_path, Libdl.RTLD_LAZY | Libdl.RTLD_GLOBAL)
+    lib_handle = dlopen(lib_path, RTLD_LAZY | RTLD_GLOBAL)
     println("✓ Loaded library: $lib_path")
     println()
 
@@ -24,12 +24,12 @@ function run_tests()
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = Libdl.dlsym(lib_handle, :test_hadamard_transpose)
+    unzipping_test_func = dlsym(lib_handle, :test_hadamard_transpose)
     ccall(unzipping_test_func, Cvoid, ())
 
     println("="^80)
 
-    Libdl.dlclose(lib_handle)
+    dlclose(lib_handle)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
