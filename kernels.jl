@@ -1,7 +1,9 @@
 module FinchKernels
 
+include("utils.jl")
+
 using Finch
-import SparseArrays
+import SparseArrays: sparse
 
 """
 Compute kernel: A(i, j) = B(i, j) * C(j, i)
@@ -12,8 +14,12 @@ function hadamard_transpose!(B, C)
 end
 
 function test_hadamard_transpose()
-    B = Tensor(Dense(SparseList(Element(0.0))), [1.0 2.0; 0.0 3.0])
-    C = Tensor(Dense(SparseList(Element(0.0))), [4.0 0.0; 5.0 6.0])
+    B_sparse = sparse([1, 1, 2], [1, 2, 2], [1.0, 2.0, 3.0], 2, 2)
+    C_sparse = sparse([1, 2, 2], [1, 1, 2], [4.0, 5.0, 6.0], 2, 2)
+
+    B = Utils.to_finch_csr(B_sparse)
+    C = Utils.to_finch_csr(C_sparse)
+
     return hadamard_transpose!(B, C)
 end
 

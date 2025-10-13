@@ -10,10 +10,10 @@ Benchmark comparison of Finch.jl sparse tensor compiler vs unzipping C code for 
 **C Implementation `kernels.c`:**
 - `hadamard_transpose()`
 
-**Benchmark `benchmark.jl`:**
-- **Small**: 100×100 matrices with 10% sparsity
-- **Medium**: 1000×1000 matrices with 5% sparsity
-- **Large**: 5000×5000 matrices with 1% sparsity
+**Benchmark `benchmark.ipynb`:**
+- **Matrix Size**: Tests sizes [100, 200, 500, 1000, 2000, 3000, 5000] with fixed 5% sparsity
+- **Sparsity**: Tests sparsities [1%, 2%, 5%, 10%, 15%, 20%, 30%] with fixed 1000×1000 size
+- **Unzip Comparison**: Compares unzipping B vs C with varying sparsity ratios
 
 ## Setup
 
@@ -34,12 +34,4 @@ julia --project=. test.jl
 
 Run the benchmark:
 
-```bash
-julia --project=. benchmark.jl
-```
-
-Edit `benchmark.jl` `main()` function to add custom test cases:
-
-```julia
-benchmark_comparison(2000, 2000, 0.02)  # 2000×2000, 2% sparsity
-```
+Open `benchmark.ipynb` and run the cells.

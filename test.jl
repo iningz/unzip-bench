@@ -1,10 +1,9 @@
 # Test correctness of Finch vs Unzipping implementations
 
-include("utils.jl")
 include("kernels.jl")
+include("utils.jl")
 
 import Libdl
-import SparseArrays
 
 function run_tests()
     # Compile and load library
