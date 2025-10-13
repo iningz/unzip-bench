@@ -1,11 +1,13 @@
-name = "FinchBenchmark"
+name = "UnzipBenchmark"
 version = "0.1.0"
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+Finch = "9177782c-1635-4eb9-9bfb-d9dfa25e6bce"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
 julia = "1.10 - 1.11"
-
-[deps]
-Finch = "9177782c-1635-4eb9-9bfb-d9dfa25e6bce"
-SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
