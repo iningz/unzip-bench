@@ -1,25 +1,36 @@
 module FinchKernels
+export hadamard_transpose, matmul, matmul_hadamard, hadamard_transpose_reduce, permute_contract
 
-using ..Utils: to_finch_csr
-using Finch: @einsum
-using SparseArrays: sparse
+using Finch
 
-"""
-Compute kernel: A(i, j) = B(i, j) * C(j, i)
-"""
-function hadamard_transpose!(B, C)
+# A(i, j) = B(i, j) * C(j, i)
+function hadamard_transpose(B, C)
     @einsum A[i, j] = B[i, j] * C[j, i]
     return A
 end
 
-function test_hadamard_transpose()
-    B_sparse = sparse([1, 1, 2], [1, 2, 2], [1.0, 2.0, 3.0], 2, 2)
-    C_sparse = sparse([1, 2, 2], [1, 1, 2], [4.0, 5.0, 6.0], 2, 2)
+# A(i, j) = B(i, k) * C(k, j)
+function matmul(B, C)
+    @einsum A[i, j] += B[i, k] * C[k, j]
+    return A
+end
 
-    B = to_finch_csr(B_sparse)
-    C = to_finch_csr(C_sparse)
+# A(i, j) = B(i, k) * C(k, j) * D(k, j)
+function matmul_hadamard(B, C, D)
+    @einsum A[i, j] += B[i, k] * C[k, j] * D[k, j]
+    return A
+end
 
-    return hadamard_transpose!(B, C)
+# y(i) = B(i, j) * C(j, i)
+function hadamard_transpose_reduce(B, C)
+    @einsum y[i] += B[i, j] * C[j, i]
+    return y
+end
+
+# y(i) = B(i, j, k) * C(i, k, j)
+function permute_contract(B, C)
+    @einsum y[i] += B[i, j, k] * C[i, k, j]
+    return y
 end
 
 end # module
