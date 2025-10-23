@@ -7,19 +7,19 @@ using Libdl: dlopen, dlsym, dlclose, RTLD_LAZY, RTLD_GLOBAL
 include("utils.jl")
 include("kernels.jl")
 
-# const CONFIG = (
-#     sizes = [100, 200, 500, 1000, 2000, 3000, 5000],
-#     sparsities = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30],
-#     fixed_size = 1000,
-#     fixed_sparsity = 0.05
-# )
-
 const CONFIG = (
-    sizes = [10, 20],
-    sparsities = [0.01, 0.02],
-    fixed_size = 10,
-    fixed_sparsity = 0.01
+    sizes = [100, 200, 500, 1000, 2000, 3000, 5000],
+    sparsities = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30],
+    fixed_size = 1000,
+    fixed_sparsity = 0.05
 )
+
+# const CONFIG = (
+#     sizes = [10, 20],
+#     sparsities = [0.01, 0.02],
+#     fixed_size = 10,
+#     fixed_sparsity = 0.01
+# )
 
 # C Library Wrappers
 const LIB_HANDLE = Ref{Ptr{Cvoid}}(C_NULL)
