@@ -141,7 +141,11 @@ function save_results(results, kernel_name)
         ))
     end
     
-    CSV.write("results/$(kernel_name).csv", rows)
+    results_dir = "results"
+    if !isdir(results_dir)
+        mkpath(results_dir)
+    end
+    CSV.write(joinpath(results_dir, "$(kernel_name).csv"), rows)
 end
 
 function run_benchmarks()
