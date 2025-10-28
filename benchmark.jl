@@ -10,19 +10,19 @@ include("finch_kernels_aot.jl")
 include("libunzip_utils.jl")
 include("libunzip_kernels.jl")
 
-# const CONFIG = (
-#     sizes = [100, 200, 500, 1000, 2000, 3000, 5000],
-#     sparsities = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30],
-#     fixed_size = 1000,
-#     fixed_sparsity = 0.05
-# )
-
 const CONFIG = (
-    sizes=[10, 20],
-    sparsities=[0.01, 0.02],
-    fixed_size=10,
-    fixed_sparsity=0.01
+    sizes = [100, 200, 500, 1000],
+    sparsities = [0.01, 0.02, 0.05, 0.10],
+    fixed_size = 1000,
+    fixed_sparsity = 0.05
 )
+
+# const CONFIG = (
+#     sizes=[10, 20],
+#     sparsities=[0.01, 0.02],
+#     fixed_size=10,
+#     fixed_sparsity=0.01
+# )
 
 function save_results(results, kernel_name)
     rows = []
@@ -39,10 +39,10 @@ function save_results(results, kernel_name)
             size=size,
             sparsity=CONFIG.fixed_sparsity,
             finch_jit_min=minimum(finch_jit_results).time,
-            finch_jit_med=median(finch_jit_results).time,
             finch_aot_min=minimum(finch_aot_results).time,
-            finch_aot_med=median(finch_aot_results).time,
             unzip_min=minimum(unzip_results).time,
+            finch_jit_med=median(finch_jit_results).time,
+            finch_aot_med=median(finch_aot_results).time,
             unzip_med=median(unzip_results).time,
         ))
     end
@@ -59,10 +59,10 @@ function save_results(results, kernel_name)
             size=CONFIG.fixed_size,
             sparsity=sparsity,
             finch_jit_min=minimum(finch_jit_results).time,
-            finch_jit_med=median(finch_jit_results).time,
             finch_aot_min=minimum(finch_aot_results).time,
-            finch_aot_med=median(finch_aot_results).time,
             unzip_min=minimum(unzip_results).time,
+            finch_jit_med=median(finch_jit_results).time,
+            finch_aot_med=median(finch_aot_results).time,
             unzip_med=median(unzip_results).time,
         ))
     end
