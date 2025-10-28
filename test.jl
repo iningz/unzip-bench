@@ -1,21 +1,13 @@
 # Test correctness of Finch vs Unzipping implementations
 
-using Libdl: dlopen, dlsym, dlclose, RTLD_LAZY, RTLD_GLOBAL
+include("finch_kernels_jit.jl")
+include("finch_kernels_aot.jl")
+include("libunzip_kernels_test.jl")
+include("finch_kernels_test.jl")
 
-include("kernels_test.jl")
-using .FinchKernelsTest
 
 function run_tests()
-    # Compile and load library
-    println("Compiling Unzipping test library...")
-    lib_ext = Sys.isapple() ? "dylib" : "so"
-    lib_name = "libkernel_tests.$lib_ext"
-    run(`cc -shared -O3 -fPIC kernels_test.c kernels.c utils.c -o $lib_name`)
-    println("Compiled library: $lib_name")
-    lib_path = joinpath(@__DIR__, lib_name)
-    lib_handle = dlopen(lib_path, RTLD_LAZY | RTLD_GLOBAL)
-    println("Loaded library: $lib_path")
-    println()
+    UnzipKernelsTest.setup()
 
     println("="^80)
     println("TEST 1: Hadamard Transpose")
@@ -24,13 +16,16 @@ function run_tests()
     println("A(i,j) = B(i,j) * C(j,i)")
     println("Expected: A = [4 10; 0 18]")
 
-    println("\n------ Finch Result ------")
-    test_hadamard_transpose()
+    println("\n------ Finch JIT Result ------")
+    FinchKernelsTest.test_hadamard_transpose(FinchKernelsJIT)
+    println()
+
+    println("\n------ Finch AOT Result ------")
+    FinchKernelsTest.test_hadamard_transpose(FinchKernelsAOT)
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = dlsym(lib_handle, :test_hadamard_transpose)
-    ccall(unzipping_test_func, Cvoid, ())
+    UnzipKernelsTest.test_hadamard_transpose()
     println("="^80)
     println()
 
@@ -41,13 +36,16 @@ function run_tests()
     println("A(i,j) = B(i,k) * C(k,j)")
     println("Expected: A = [2 0; 0 0]")
 
-    println("\n------ Finch Result ------")
-    test_matmul()
+    println("\n------ Finch JIT Result ------")
+    FinchKernelsTest.test_matmul(FinchKernelsJIT)
+    println()
+
+    println("\n------ Finch AOT Result ------")
+    FinchKernelsTest.test_matmul(FinchKernelsAOT)
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = dlsym(lib_handle, :test_matmul)
-    ccall(unzipping_test_func, Cvoid, ())
+    UnzipKernelsTest.test_matmul()
     println("="^80)
     println()
 
@@ -59,13 +57,16 @@ function run_tests()
     println("A(i,j) = B(i,k) * C(k,j) * D(k,j)")
     println("Expected: A = [2 0; 0 6]")
 
-    println("\n------ Finch Result ------")
-    test_matmul_hadamard()
+    println("\n------ Finch JIT Result ------")
+    FinchKernelsTest.test_matmul_hadamard(FinchKernelsJIT)
+    println()
+
+    println("\n------ Finch AOT Result ------")
+    FinchKernelsTest.test_matmul_hadamard(FinchKernelsAOT)
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = dlsym(lib_handle, :test_matmul_hadamard)
-    ccall(unzipping_test_func, Cvoid, ())
+    UnzipKernelsTest.test_matmul_hadamard()
     println("="^80)
     println()
 
@@ -76,13 +77,16 @@ function run_tests()
     println("y(i) = B(i,j) * C(j,i)")
     println("Expected: y = [14, 18]")
 
-    println("\n------ Finch Result ------")
-    test_hadamard_transpose_reduce()
+    println("\n------ Finch JIT Result ------")
+    FinchKernelsTest.test_hadamard_transpose_reduce(FinchKernelsJIT)
+    println()
+
+    println("\n------ Finch AOT Result ------")
+    FinchKernelsTest.test_hadamard_transpose_reduce(FinchKernelsAOT)
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = dlsym(lib_handle, :test_hadamard_transpose_reduce)
-    ccall(unzipping_test_func, Cvoid, ())
+    UnzipKernelsTest.test_hadamard_transpose_reduce()
     println("="^80)
     println()
 
@@ -93,17 +97,20 @@ function run_tests()
     println("C has non-zeros at: C[0,0,0]=4, C[1,0,1]=5, C[1,1,1]=6")
     println("Expected: y = [4, 18]")
 
-    println("\n------ Finch Result ------")
-    test_permute_contract()
+    println("\n------ Finch JIT Result ------")
+    FinchKernelsTest.test_permute_contract(FinchKernelsJIT)
+    println()
+
+    println("\n------ Finch AOT Result ------")
+    FinchKernelsTest.test_permute_contract(FinchKernelsAOT)
     println()
 
     println("\n------ Unzipping Result ------")
-    unzipping_test_func = dlsym(lib_handle, :test_permute_contract)
-    ccall(unzipping_test_func, Cvoid, ())
+    UnzipKernelsTest.test_permute_contract()
     println("="^80)
     println()
 
-    dlclose(lib_handle)
+    UnzipKernelsTest.teardown()
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

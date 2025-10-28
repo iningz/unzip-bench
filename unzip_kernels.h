@@ -1,7 +1,7 @@
-#ifndef KERNELS_H
-#define KERNELS_H
+#ifndef UNZIP_KERNELS_H
+#define UNZIP_KERNELS_H
 
-#include "formats.h"
+#include "unzip_formats.h"
 
 /* Kernel function declarations */
 
