@@ -18,10 +18,10 @@ static inline size_t rand_uniform(size_t n) {
 }
 
 // Dense tensor utilities
-struct dense *allocate_dense(size_t size) {
+struct dense *allocate_dense(size_t n) {
   struct dense *tensor = malloc(sizeof(struct dense));
-  tensor->size = size;
-  tensor->vals = calloc(size, sizeof(double));
+  tensor->size = n;
+  tensor->vals = calloc(n, sizeof(double));
   return tensor;
 }
 

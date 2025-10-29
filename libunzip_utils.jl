@@ -22,9 +22,9 @@ function teardown()
     dlclose(LIB_HANDLE[])
 end
 
-function allocate_dense(size::Csize_t)
+function allocate_dense(n::Csize_t)
     func = dlsym(LIB_HANDLE[], :allocate_dense)
-    return ccall(func, Ptr{Cvoid}, (Csize_t,), size)
+    return ccall(func, Ptr{Cvoid}, (Csize_t,), n)
 end
 
 function free_dense(tensor::Ptr{Cvoid})
@@ -37,9 +37,9 @@ function reset_dense(tensor::Ptr{Cvoid})
     ccall(func, Cvoid, (Ptr{Cvoid},), tensor)
 end
 
-function allocate_csr(ndim1::Csize_t, ndim2::Csize_t, nnz::Csize_t)
+function allocate_csr(ndim1::Csize_t, ndim2::Csize_t, dim2_nnz::Csize_t)
     func = dlsym(LIB_HANDLE[], :allocate_csr)
-    return ccall(func, Ptr{Cvoid}, (Csize_t, Csize_t, Csize_t), ndim1, ndim2, nnz)
+    return ccall(func, Ptr{Cvoid}, (Csize_t, Csize_t, Csize_t), ndim1, ndim2, dim2_nnz)
 end
 
 function free_csr(tensor::Ptr{Cvoid})
@@ -57,9 +57,9 @@ function generate_csr(ndim1::Csize_t, ndim2::Csize_t, sparsity::Cdouble, seed::C
     return ccall(func, Ptr{Cvoid}, (Csize_t, Csize_t, Cdouble, Cuint), ndim1, ndim2, sparsity, seed)
 end
 
-function allocate_csf(ndim1::Csize_t, ndim2::Csize_t, ndim3::Csize_t, nnz2::Csize_t, nnz3::Csize_t)
+function allocate_csf(ndim1::Csize_t, ndim2::Csize_t, ndim3::Csize_t, dim2_nnz::Csize_t, dim3_nnz::Csize_t)
     func = dlsym(LIB_HANDLE[], :allocate_csf)
-    return ccall(func, Ptr{Cvoid}, (Csize_t, Csize_t, Csize_t, Csize_t, Csize_t), ndim1, ndim2, ndim3, nnz2, nnz3)
+    return ccall(func, Ptr{Cvoid}, (Csize_t, Csize_t, Csize_t, Csize_t, Csize_t), ndim1, ndim2, ndim3, dim2_nnz, dim3_nnz)
 end
 
 function free_csf(tensor::Ptr{Cvoid})

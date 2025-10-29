@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Kernel implementation: A(i,j) = B(i,j) * C(j,i) */
+/* A(i,j) = B(i,j) * C(j,i) */
 void hadamard_transpose(struct csr *t1, struct csr *t2, struct csr *res) {
   for (size_t t1_lvl1_idx = 0; t1_lvl1_idx < t1->lvl1_size; ++t1_lvl1_idx) {
     // Iterate over i in B(i,j)
