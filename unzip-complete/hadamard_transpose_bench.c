@@ -14,14 +14,14 @@ const unsigned int SEED = 42;
 const size_t MIN_SIZE = 10;
 const size_t MAX_SIZE = 100;
 const int NUM_SAMPLES = 5;
-const int NUM_WARMUP = 2;
-const int NUM_RUNS = 5;
+const int NUM_WARMUP = 0;
+const int NUM_RUNS = 1;
 #else
 const size_t MIN_SIZE = 100;
 const size_t MAX_SIZE = 10000;
 const int NUM_SAMPLES = 20;
-const int NUM_WARMUP = 5;
-const int NUM_RUNS = 10;
+const int NUM_WARMUP = 0;
+const int NUM_RUNS = 1;
 #endif
 
 const double SPARSITIES[] = {0.05, 0.1, 0.25, 0.5, 0.75};
