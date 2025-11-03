@@ -1,4 +1,4 @@
-/results
+/baseline-finch/results
 
 # Shared objects
 *.so

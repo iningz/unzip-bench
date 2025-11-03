@@ -1,5 +1,4 @@
 #include "unzip_kernels.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /* A(i,j) = B(i,j) * C(j,i) */

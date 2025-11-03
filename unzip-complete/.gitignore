@@ -1,0 +1,8 @@
+# Ignore all executables (files without extensions)
+*
+!*/
+!*.*
+!Makefile
+
+# Ignore results directory
+/results/
