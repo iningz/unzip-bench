@@ -17,7 +17,7 @@ static inline size_t rand_uniform(size_t n) { return rand_size_t() % n; }
 // Dense tensor utilities
 // ============================================================================
 
-struct dense *_allocate_dense(size_t n) {
+struct dense *allocate_dense(size_t n) {
   struct dense *tensor = malloc(sizeof(struct dense));
   tensor->lvl1_size = n;
   tensor->vals = calloc(n, sizeof(double));
@@ -33,9 +33,9 @@ void _free_dense(struct dense *tensor) {
 
 void _reset_dense(struct dense *tensor) { memset(tensor->vals, 0, tensor->lvl1_size * sizeof(double)); }
 
-struct dense *_generate_dense(size_t n, unsigned int seed) {
+struct dense *generate_dense(size_t n, unsigned int seed) {
   srand(seed);
-  struct dense *tensor = _allocate_dense(n);
+  struct dense *tensor = allocate_dense(n);
   for (size_t i = 0; i < n; ++i) {
     tensor->vals[i] = rand_double();
   }
@@ -46,7 +46,7 @@ struct dense *_generate_dense(size_t n, unsigned int seed) {
 // CSR tensor utilities
 // ============================================================================
 
-struct csr *_allocate_csr(size_t ndim1, size_t dim2_nnz) {
+struct csr *allocate_csr(size_t ndim1, size_t dim2_nnz) {
   struct csr *tensor = malloc(sizeof(struct csr));
   tensor->lvl1_size = ndim1;
   tensor->lvl2_pos = malloc((ndim1 + 1) * sizeof(size_t));
@@ -72,7 +72,7 @@ void _reset_csr(struct csr *tensor) {
   memset(tensor->lvl2_pos, 0, (tensor->lvl1_size + 1) * sizeof(size_t));
 }
 
-struct csr *_generate_csr(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
+struct csr *generate_csr(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
   srand(seed);
 
   struct csr *tensor = malloc(sizeof(struct csr));
@@ -106,7 +106,7 @@ struct csr *_generate_csr(size_t ndim1, size_t ndim2, double sparsity, unsigned 
 // CSC tensor utilities
 // ============================================================================
 
-struct csc *_allocate_csc(size_t ndim2, size_t dim2_nnz) {
+struct csc *allocate_csc(size_t ndim2, size_t dim2_nnz) {
   struct csc *tensor = malloc(sizeof(struct csc));
   tensor->lvl1_size = ndim2; // CSC stores by columns
   tensor->lvl2_pos = malloc((ndim2 + 1) * sizeof(size_t));
@@ -132,7 +132,7 @@ void _reset_csc(struct csc *tensor) {
   memset(tensor->lvl2_pos, 0, (tensor->lvl1_size + 1) * sizeof(size_t));
 }
 
-struct csc *_generate_csc(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
+struct csc *generate_csc(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
   srand(seed);
 
   struct csc *tensor = malloc(sizeof(struct csc));
@@ -166,7 +166,7 @@ struct csc *_generate_csc(size_t ndim1, size_t ndim2, double sparsity, unsigned 
 // COO tensor utilities
 // ============================================================================
 
-struct coo *_allocate_coo(size_t nnz) {
+struct coo *allocate_coo(size_t nnz) {
   struct coo *tensor = malloc(sizeof(struct coo));
   tensor->lvl1_nnz = nnz;
   tensor->lvl1_crd = malloc(nnz * sizeof(size_t));
@@ -186,7 +186,7 @@ void _free_coo(struct coo *tensor) {
 
 void _reset_coo(struct coo *tensor) { tensor->lvl1_nnz = 0; }
 
-struct coo *_generate_coo(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
+struct coo *generate_coo(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed) {
   srand(seed);
 
   size_t nnz = (size_t)(ndim1 * ndim2 * sparsity);
@@ -212,7 +212,7 @@ struct coo *_generate_coo(size_t ndim1, size_t ndim2, double sparsity, unsigned 
 // CSF tensor utilities
 // ============================================================================
 
-struct csf *_allocate_csf(size_t ndim1, size_t dim2_nnz, size_t dim3_nnz) {
+struct csf *allocate_csf(size_t ndim1, size_t dim2_nnz, size_t dim3_nnz) {
   struct csf *tensor = malloc(sizeof(struct csf));
   tensor->lvl1_nnz = ndim1;
   tensor->lvl1_crd = malloc(ndim1 * sizeof(size_t));
@@ -246,7 +246,7 @@ void _reset_csf(struct csf *tensor) {
   memset(tensor->lvl2_pos, 0, sizeof(size_t));
 }
 
-struct csf *_generate_csf(size_t ndim1, size_t ndim2, size_t ndim3, double sparsity, unsigned int seed) {
+struct csf *generate_csf(size_t ndim1, size_t ndim2, size_t ndim3, double sparsity, unsigned int seed) {
   srand(seed);
 
   size_t dim1_nnz = (size_t)(ndim1 * sparsity);

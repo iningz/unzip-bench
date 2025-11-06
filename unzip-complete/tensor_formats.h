@@ -67,11 +67,6 @@ struct coo {
   double *vals;
 };
 
-// Generic dispatch macros
-
-#define allocate_tensor(FMT, ...) _allocate_##FMT(__VA_ARGS__)
-#define generate_tensor(FMT, ...) _generate_##FMT(__VA_ARGS__)
-
 #define reset_tensor(T)                                                                                                \
   _Generic((T),                                                                                                        \
       struct dense *: _reset_dense,                                                                                    \
@@ -91,33 +86,33 @@ struct coo {
 // Internal utility function declarations (use generic macros below instead)
 
 // Dense utilities
-struct dense *_allocate_dense(size_t n);
+struct dense *allocate_dense(size_t n);
+struct dense *generate_dense(size_t n, unsigned int seed);
 void _free_dense(struct dense *tensor);
 void _reset_dense(struct dense *tensor);
-struct dense *_generate_dense(size_t n, unsigned int seed);
 
 // CSR utilities
-struct csr *_allocate_csr(size_t ndim1, size_t dim2_nnz);
+struct csr *allocate_csr(size_t ndim1, size_t dim2_nnz);
+struct csr *generate_csr(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 void _free_csr(struct csr *tensor);
 void _reset_csr(struct csr *tensor);
-struct csr *_generate_csr(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 
 // CSC utilities
-struct csc *_allocate_csc(size_t ndim2, size_t dim2_nnz);
+struct csc *allocate_csc(size_t ndim2, size_t dim2_nnz);
+struct csc *generate_csc(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 void _free_csc(struct csc *tensor);
 void _reset_csc(struct csc *tensor);
-struct csc *_generate_csc(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 
 // COO utilities
-struct coo *_allocate_coo(size_t nnz);
+struct coo *allocate_coo(size_t nnz);
+struct coo *generate_coo(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 void _free_coo(struct coo *tensor);
 void _reset_coo(struct coo *tensor);
-struct coo *_generate_coo(size_t ndim1, size_t ndim2, double sparsity, unsigned int seed);
 
 // CSF utilities
-struct csf *_allocate_csf(size_t ndim1, size_t dim2_nnz, size_t dim3_nnz);
+struct csf *allocate_csf(size_t ndim1, size_t dim2_nnz, size_t dim3_nnz);
+struct csf *generate_csf(size_t ndim1, size_t ndim2, size_t ndim3, double sparsity, unsigned int seed);
 void _free_csf(struct csf *tensor);
 void _reset_csf(struct csf *tensor);
-struct csf *_generate_csf(size_t ndim1, size_t ndim2, size_t ndim3, double sparsity, unsigned int seed);
 
 #endif /* FORMATS_H */

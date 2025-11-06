@@ -4,5 +4,7 @@
 !*.*
 !Makefile
 
-# Ignore results directory
-/results/
+.cache/
+
+build/
+results/
